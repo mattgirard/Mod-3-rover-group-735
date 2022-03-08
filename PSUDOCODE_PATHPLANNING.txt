@@ -1,0 +1,25 @@
+#This is the psudo code
+
+Matt's code:
+
+Target= (x., y.)
+Rover= (x, y)
+
+Heading to Target (htt)= tan^-1([x-x.]/[y-y.])
+Distance to target (dtt)= Sqrt([x-x.]^2 + [y-y.]^2)
+
+Lidar data: #not sure how sensors are labeled, but assuming that they are numbered in order
+#going to use the notation of lidar[1], lidar[2], lidar[3], etc for sensors. lidar[1] being most left sensor and lidar[32] being furthest right sensor
+
+if rover.heading != htt:
+    Turn rover such that rover.heading = htt #assuming that this means lidar[16] will be in direction of htt
+
+if ||ldt|| < ddt:
+    for x in range(lidar sensors/2):
+    if distance.lidar[16-1]>=ddt:
+        move in direction of lidar[16-1]
+    
+    if distance.lidar[16+1]>=ddt:
+        move in direction of lidar[16-1]
+
+sleep(1)
