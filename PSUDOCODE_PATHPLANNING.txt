@@ -20,6 +20,6 @@ if ||ldt|| < ddt:
         move in direction of lidar[16-1]
     
     if distance.lidar[16+1]>=ddt:
-        move in direction of lidar[16-1]
+        move in direction of lidar[16+1]
 
 sleep(1)
