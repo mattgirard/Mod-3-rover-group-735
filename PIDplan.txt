@@ -1,0 +1,16 @@
+import time
+
+# Define PID gain values as global variables to prevent them from resetting to zero each time function is called
+#Needs PID gain values for pitch roll and yaw indivudally which are the rotations of the vehicle along the x,y,z axis respectivley
+#Consider if it is possible to only utlisze pitch and roll since yaw seems redundant as it is the z axis movement
+Example 
+kprop_pitch = 
+kint_pitch =
+kder_pitch = 
+kprop_roll = 
+kint_roll =
+kder_roll = 
+etc.
+
+#Other variables below
+setpoint = 0
