@@ -1,6 +1,32 @@
 #This is the psudo code
 
-Matt's code:
+lidar Distances = [99,99,99,99,99,99,99,99,99,99,99,99,16,14,12,10,12,14,16,99,99,99,99,99,99,99,99,99,99,99,99,99]
+         1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32
+
+
+
+
+
+
+Code:
+
+def Direction_find(htt, dtt):   #This is a function that will scan all the lidar sensors and once there is a lidar sensor without an obstruction, it will set the rover in that directon
+    lidar_found=0
+    for x in range(lidar sensors/2):    #Checking if the surrounding lidar sensors also see an obstruction; once a lidar sensor without an obstruction is found than the rover will move in that direction
+        if distance.lidar[16-1]>=ddt:
+            move in direction of lidar[16-1]
+            lidar_found= 1  #if a sensor with no obstruction is found than this loop will be exitted and the variable "lidar_found" is set to 1 (True)
+            break all
+    
+        if distance.lidar[16+1]>=ddt:
+            move in direction of lidar[16+1]
+            lidar_found= 1
+            break all
+
+    if lidar_found == 0:
+        Rotate rover
+        Directon_find()
+    
 
 Target= (2., 3.)
 Rover= (0, 0)
@@ -11,18 +37,9 @@ Distance to target (dtt)= Sqrt([x-x.]^2 + [y-y.]^2)
 Lidar data: #not sure how sensors are labeled, but assuming that they are numbered in order
 #going to use the notation of lidar[1], lidar[2], lidar[3], etc for sensors. lidar[1] being most left sensor and lidar[32] being furthest right sensor
 
-lidar = [99,99,99,99,99,99,99,99,99,99,99,99,16,14,12,10,12,14,16,99,99,99,99,99,99,99,99,99,99,99,99,99]
-         1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32
+Turn rover (hht-rover.heading) #turn the rover to face the target. (hht-rover.heading) is how much the rover needs to turn
 
-if rover.heading != htt:
-    Turn rover such that rover.heading = htt #assuming that this means lidar[16] will be in direction of htt
-
-if ||ldt|| < ddt:
-    for x in range(lidar sensors/2):
-    if distance.lidar[16-1]>=ddt:
-        move in direction of lidar[16-1]
-    
-    if distance.lidar[16+1]>=ddt:
-        move in direction of lidar[16+1]
+if lidar[16] < ddt:   #if the lidar sensor tells us that something is inbetween the rover and the target
+    Direction_find(htt, dtt)
 
 sleep(1)
