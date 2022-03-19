@@ -57,4 +57,39 @@ flag += 1
 dtime = currenttime - previousRunTime
 dpitcherror = pitcherror - previousRunpitcherror
 drollerror = rollerror - previousRunrollerror
+dyawerror = yawerror - previousRunyawerror
 
+#"Heart of PID alg". the alg will be more accurately if it is sampled at regular intervals. Sample time can be changed to optimize controller
+if (dtime >= sampletime):
+    #Following is proportional term 
+    pitchMemoryForP = kprop_pitch * pitcherror
+    rollMemoryForP = kprop_roll * rollerror
+    yawMemoryForP =   #Still not sure if Yaw is needed but can be easily added if necessary
+
+    #Integral term
+    pitchMemoryForI += pitcherror * dtime
+    rollMemoryForI += rollerror * dtime
+    yawMemoryForI +=
+
+    if(pitchMemoryForI > 400): pitchMemoryForI = 400
+    if(pitchMemoryForI < -400): pitchMemoryForI = -400
+    if(rollMemoryForI > 400): rollMemoryForI = 400
+    if(rollMemoryForI < -400): rollMemoryForI = -400
+    if(yawMemoryForI > 400): yawMemoryForI = 400
+    if(yawMemoryForI < -400): yawMemoryForI = -400
+
+    #Derivative term
+    pitchMemoryForD = dpitcherror/dtime
+    rollMemoryForD = drollerror/dtime
+    yawMemoryForD = dyawerror/dtime
+
+#Out of if statememnt store variables from most recent run into the previous variables to utilise in the next iterations of the loop
+previousRunTime = currenttime
+previousRunrollerror = rollerror
+previousRunpitcherror = pitcherror
+previousRunyawerror = yawerror
+
+#Outputs based on collective PID equation for pitch roll and yaw
+ 
+ outputPitch = pitchMemoryForP + kprop_pitch * 
+    
