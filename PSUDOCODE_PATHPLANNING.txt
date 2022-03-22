@@ -10,26 +10,31 @@ lidar Distances = [99,99,99,99,99,99,99,99,99,99,99,99,16,14,12,10,12,14,16,99,9
 
 Code:
 
+import lidar data, and coordinate data
+
 def Direction_find(htt, dtt):   #This is a function that will scan all the lidar sensors and once there is a lidar sensor without an obstruction, it will set the rover in that directon
     lidar_found=0
     for x in range(lidar sensors/2):    #Checking if the surrounding lidar sensors also see an obstruction; once a lidar sensor without an obstruction is found than the rover will move in that direction
-        if distance.lidar[16-1]>=ddt:
-            move in direction of lidar[16-1]
+        if distance.lidar[16-x]>=ddt:
+            move in direction of lidar[16-x]
             lidar_found= 1  #if a sensor with no obstruction is found than this loop will be exitted and the variable "lidar_found" is set to 1 (True)
+            FavoredDirection= LEFT
             break all
     
-        if distance.lidar[16+1]>=ddt:
-            move in direction of lidar[16+1]
+        if distance.lidar[16+x]>=ddt:
+            move in direction of lidar[16+x]
             lidar_found= 1
+            FavoredDirection= RIGHT
             break all
 
     if lidar_found == 0:
-        Rotate rover
+        Rotate rover 90 desrees in FavoredDirection
         Directon_find()
     
 
 Target= (2., 3.)
 Rover= (0, 0)
+FavoredDirection= RIGHT
 
 Heading to Target (htt)= tan^-1([x-x.]/[y-y.])
 Distance to target (dtt)= Sqrt([x-x.]^2 + [y-y.]^2)
@@ -39,7 +44,10 @@ Lidar data: #not sure how sensors are labeled, but assuming that they are number
 
 Turn rover (hht-rover.heading) #turn the rover to face the target. (hht-rover.heading) is how much the rover needs to turn
 
-if lidar[16] < ddt:   #if the lidar sensor tells us that something is inbetween the rover and the target
-    Direction_find(htt, dtt)
+while GOAL is FALSE:
+    if lidar[16] < ddt:   #if the lidar sensor tells us that something is inbetween the rover and the target
+        Direction_find(htt, dtt)
+    elif GOAL is TRUE:
+        exit 0
 
 sleep(1)
