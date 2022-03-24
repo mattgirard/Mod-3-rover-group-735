@@ -7,22 +7,41 @@ import math as m
 def Direction_find(htt, dtt):   #This is a function that will scan all the lidar sensors and once there is a lidar sensor without an obstruction, it will set the rover in that directon
     lidar_found=0
     for x in range(lidar/2):    #Checking if the surrounding lidar sensors also see an obstruction; once a lidar sensor without an obstruction is found than the rover will move in that direction
-        if distance.lidar[16-x]>=ddt:
-            move in direction of lidar[16-x]
+        if lidar[16-x]>=ddt:
+            move_to_lidar(-x)
             lidar_found= 1  #if a sensor with no obstruction is found than this loop will be exitted and the variable "lidar_found" is set to 1 (True)
             FavoredDirection= 'LEFT'
             break
     
         if distance.lidar[16+x]>=ddt:
-            move in direction of lidar[16+x]
+            move_to_lidar(x)
             lidar_found= 1
             FavoredDirection= 'RIGHT'
             break
 
     if lidar_found == 0:
-        Rotate rover 90 desrees in FavoredDirection
+        Rotate rover 90 degrees in FavoredDirection
         Direction_find(htt, dtt)
 
+
+def move_to_lidar(x): #a function that moves the rover in the direction of a given lidar sensor
+    new_heading= rover.heading + (90/32)*x #calculates a new heading that the rover is hoping to achieve based off of variable "x", which is the displacement of lidar sensors from the rovers heading
+    if new_heading < 0: #if the new heading is a negative number, than it needs to be "looped" around back to 360 degrees.
+        new_heading= 360+new_heading
+
+    while rover.heading != new_heading: #turning the rover to face the direction of the desired lidar sensor 
+        if new_heading>rover.heading:
+            left_side_speed= 1
+            right_side_speed= 0
+    
+        if new_heading<rover.heading:
+            left_side_speed= 0
+            right_side_speed= 1
+        sleep(0.2)
+   
+    left_side_speed = 1 #moves rover forwards
+    right_side_speed = 1
+    sleep(0.5)
 
 Target= {
     'x': float('X'),
@@ -37,8 +56,8 @@ Rover= {
 FavoredDirection= 'RIGHT'
 GOAL= False
 
-htt= m.atan([Target['x'] - Rover['x']]/[Target['y'] - Rover['y']])
-dtt= m.sqrt(float(pow(Target['x'] - Rover['x'], 2) + pow(Target['y'] - Rover['y'], 2)))
+htt= m.atan([Target['x'] - Rover['x']]/[Target['y'] - Rover['y']]) #heading to target
+dtt= m.sqrt(float(pow(Target['x'] - Rover['x'], 2) + pow(Target['y'] - Rover['y'], 2))) #distance to target
 
 lidar= []  #not sure how sensors are labeled, but assuming that they are numbered in order
 #going to use the notation of lidar[1], lidar[2], lidar[3], etc for sensors. lidar[1] being most left sensor and lidar[32] being furthest right sensor
