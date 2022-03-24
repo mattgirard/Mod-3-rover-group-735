@@ -6,7 +6,7 @@ def PID(x, y, f):
 # Define PID gain values as global variables to prevent them from resetting to zero each time function is called
 #Needs PID gain values for roll and pitch indivudally which are the rotations of the vehicle along the x and yaxis respectivley
 
-    #Current gain values are arbitrary
+    #Current gain values are arbitrary, these will most likely be changed 
     kprop_x = 80
     kint_x = 0.002
     kder_x = 89
@@ -18,7 +18,7 @@ def PID(x, y, f):
 #For sample time we can start with 0 but it mat be benefical to vary this during and as a result of testing
     sampletime = 0 
     setpoint = 0
-#Need to find error of pitch roll and yaw
+#Need to find error of x and y movement 
     xerror = float(x)*(180/3.141592653) - setpoint
     yerror = float(y)*(180/3.141592653) - setpoint
 
