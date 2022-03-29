@@ -7,20 +7,39 @@ import math as m
 def Direction_find(htt, dtt):   #This is a function that will scan all the lidar sensors and once there is a lidar sensor without an obstruction, it will set the rover in that directon
     lidar_found=0
     for x in range(lidar/2):    #Checking if the surrounding lidar sensors also see an obstruction; once a lidar sensor without an obstruction is found than the rover will move in that direction
-        if lidar[16-x]>=ddt:
+        if lidar[16-x]>=dtt:
             move_to_lidar(-x)
             lidar_found= 1  #if a sensor with no obstruction is found than this loop will be exitted and the variable "lidar_found" is set to 1 (True)
             FavoredDirection= 'LEFT'
             break
     
-        if distance.lidar[16+x]>=ddt:
+        if lidar[16+x]>=dtt:
             move_to_lidar(x)
             lidar_found= 1
             FavoredDirection= 'RIGHT'
             break
 
     if lidar_found == 0:
-        Rotate rover 90 degrees in FavoredDirection
+        if FavoredDirection == 'RIGHT': 
+            heading90= rover.heading + 90
+            if heading90 > 360: heading90-= 360
+        
+        if FavoredDirection == 'LEFT': 
+            heading90= rover.heading - 90
+            if heading90 < 0: heading90+= 360
+
+        while (rover.heading != heading90):
+            if FavoredDirection == 'RIGHT':
+                left_wheel_speed= 1
+                right_wheel_speed= 0
+
+            if FavoredDirection == 'LEFT':
+                left_wheel_speed= 0
+                right_wheel_speed= 1
+
+            sleep(0.5)
+
+
         Direction_find(htt, dtt)
 
 
@@ -43,34 +62,55 @@ def move_to_lidar(x): #a function that moves the rover in the direction of a giv
     right_side_speed = 1
     sleep(0.5)
 
-Target= {
-    'x': float('X'),
-    'y': float('Y')
-}
+def face_target(htt, roverHeading):
+    left, right= roverHeading
+    for i in range(360): #checking to see which direction has the shortest turn radius
+        left-= 1
+        right+= 1
+        if left == 0: left= 360
+        if right == 360: right = 0
+        if left == htt: direction = left
+        if right == htt: direction = right
+    
+    while (roverHeading != htt):
+        if direction == right:
+            left_wheel_speed= 1
+            right_wheel_speed= 0
 
-Rover= {
-    'x': float('rover.x'),
-    'y': float('rover.y')
-}
+        if direction == left:
+            left_wheel_speed= 0
+            right_wheel_speed= 1
 
-FavoredDirection= 'RIGHT'
-GOAL= False
 
-htt= m.atan([Target['x'] - Rover['x']]/[Target['y'] - Rover['y']]) #heading to target
-dtt= m.sqrt(float(pow(Target['x'] - Rover['x'], 2) + pow(Target['y'] - Rover['y'], 2))) #distance to target
+def main ():
+    Target= {
+        'x': float('X'),
+        'y': float('Y')
+    }
 
-lidar= []  #not sure how sensors are labeled, but assuming that they are numbered in order
-#going to use the notation of lidar[1], lidar[2], lidar[3], etc for sensors. lidar[1] being most left sensor and lidar[32] being furthest right sensor
+    Rover= {
+        'x': float('rover.x'),
+        'y': float('rover.y')
+    }
 
-Turn rover (hht-rover.heading) #turn the rover to face the target. (hht-rover.heading) is how much the rover needs to turn
+    FavoredDirection= 'RIGHT'
+    GOAL= False
 
-while GOAL is False:
-    if lidar[16] < dtt:   #if the lidar sensor tells us that something is inbetween the rover and the target
-        Direction_find(htt, dtt)
-    elif GOAL is True:
-        exit
+    htt= m.atan([Target['x'] - Rover['x']]/[Target['y'] - Rover['y']]) #heading to target
+    dtt= m.sqrt(float(pow(Target['x'] - Rover['x'], 2) + pow(Target['y'] - Rover['y'], 2))) #distance to target
 
-sleep(1)
+    lidar= []  #not sure how sensors are labeled, but assuming that they are numbered in order
+    #going to use the notation of lidar[1], lidar[2], lidar[3], etc for sensors. lidar[1] being most left sensor and lidar[32] being furthest right sensor
+
+    face_target(htt, rover.heading) #turn the rover to face the target.
+
+    while GOAL is False:
+        if lidar[16] < dtt:   #if the lidar sensor tells us that something is inbetween the rover and the target
+            Direction_find(htt, dtt)
+        elif GOAL is True:
+            exit
+
+    sleep(1)
 
 
 #the following is the example code for referance
