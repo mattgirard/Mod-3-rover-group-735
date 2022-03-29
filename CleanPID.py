@@ -15,7 +15,7 @@ def PID(x, y, f):
     kder_y = kder_x
 
     flag = 0
-    #For sample time we can start with 0 but it mat be benefical to vary this during and as a result of testing
+    #For sample time we can start with 0 but it may be benefical to vary this during and as a result of testing
     sampletime = 0 
     setpoint = 0
     #Need to find error of x and y movement 
@@ -24,7 +24,7 @@ def PID(x, y, f):
 
     currenttime = time.time()
 
-    # following variables are reset during the first loop of the controller only
+    #Following variables are reset during the first loop of the controller only
 
     if flag == 0:
         previousRunTime = 0
@@ -41,14 +41,14 @@ def PID(x, y, f):
         yMemoryForD = 0
     # Adds a value and the variable and assigns the result to that variable
         flag += 1
-    #-----------------------------------------------------------------------------------------------
+    
     #dt, dy(t) must be defined to be able to be used in the D term of the PID controller 
 
     dtime = currenttime - previousRunTime
     dxerror = xerror - previousRun_xerror
     dyerror = yerror - previousRun_yerror
 
-    #Includes actual PID calculations, the alg will be more accurately if it is sampled at regular intervals. Sample time can be changed to optimize controller
+    #Includes actual PID calculations, the algorithm will be more accurate if it is sampled at regular intervals. Sample time can be changed to optimize controller
     if (dtime >= sampletime):
     #Following is proportional term 
 
@@ -84,7 +84,7 @@ def PID(x, y, f):
 
 
     #Calculate the ESC pulses (1000us - 2000us PWM signal) for each of the motor.
-    #Note that in Gazebo simulation backright in the code = frontright, backleft in the code  = backright, frontleft in the code = backleft, frontright in the code = frontleft	
+    #Note that in Gazebo simulation backright in the code = frontright; backleft in the code = backright; frontleft in the code = backleft; frontright in the code = frontleft	
 
     move_backright = 1500 + output_x + output_y
 
